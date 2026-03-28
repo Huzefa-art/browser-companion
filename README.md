@@ -2,9 +2,6 @@
 
 **Browser Companion** is a versatile Chrome extension that simplifies your interactions with any website. Whether you're navigating complex government services,reading research papers, filling out forms, posting on social media, or managing cloud platforms ,or performing any task on browser, Browser Companion provides translations, explanations, and step-by-step guidance to make your web experience seamless.
 
-[[Browser Companion Demo](https://lablab.ai/event/llama-impact-hackathon/code-crusiade)]
-
-
 ![Alt Text](browser-companion.png)
 
 ## Key Features
