@@ -21,13 +21,13 @@
   "content_scripts": [
     {
       "js": [
-        "assets/index.tsx-loader-xmOxizeg.js"
+        "assets/index.tsx-loader-BxOysp5i.js"
       ],
       "matches": [
         "<all_urls>"
       ],
       "css": [
-        "assets/index-BSHtivas.css"
+        "assets/index-PCmKFvps.css"
       ]
     }
   ],
@@ -39,7 +39,7 @@
       "resources": [
         "icons/*",
         "assets/chunk-BzbYcfmb.js",
-        "assets/chunk-Dvit_ac_.js"
+        "assets/chunk-BcOo2yT0.js"
       ],
       "use_dynamic_url": false
     }
@@ -48,5 +48,9 @@
     "sidePanel",
     "storage",
     "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost/*",
+    "http://127.0.0.1/*"
   ]
 }

@@ -1,3 +1,15 @@
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Scope all styles to the extension root to avoid polluting host pages */
+#crx-chat-root {
+  all: initial;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #0f172a;
+}
+
+#crx-chat-root * {
+  box-sizing: border-box;
+}

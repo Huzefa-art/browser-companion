@@ -99,6 +99,10 @@ export default function ChatPopup() {
     if (inputMessage.trim() !== '') {
       setIsLoading(true)
 
+      // Grab page context so the LLM knows what page the user is on
+      const pageContext = `[Current page: ${document.title} — ${window.location.href}]\n` +
+        `[Page text excerpt: ${document.body.innerText.slice(0, 800).replace(/\s+/g, ' ').trim()}]\n\n`
+
       // Convert messages to alternating user/assistant format
       const messageHistory = messages.map((msg) => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
@@ -108,8 +112,8 @@ export default function ChatPopup() {
       // Send message to background script
       chrome.runtime.sendMessage({
         type: 'CHAT_MESSAGE',
-        text: inputMessage,
-        messageHistory: messageHistory, // This will now contain the alternating pattern
+        text: pageContext + inputMessage,
+        messageHistory: messageHistory,
       })
 
       const newMessage: Message = {

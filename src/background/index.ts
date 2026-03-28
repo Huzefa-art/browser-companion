@@ -68,11 +68,69 @@ async function handleChatMessage(text: string, tabId?: number, messageHistory?: 
           ...(messageHistory || []),
           { role: 'user', content: text },
         ],
-        model: 'llama-3.2-90b-vision-preview',
+        model: settings?.groqModel || 'llama-3.3-70b-versatile',
         max_tokens: 1500,
         temperature: 0.7,
         stream: true,
       })
+    } else if (apiService === 'custom' && customApiType === 'local') {
+      const baseUrl = (settings?.apiUrl || 'http://localhost:11434/v1').replace(/\/$/, '')
+      const model = settings?.ollamaModel || 'llama3.2'
+
+      const fetchResponse = await fetch(`${baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${settings?.apiKey || 'ollama'}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: systemPrompt + toneInstruction },
+            ...(messageHistory || []),
+            { role: 'user', content: text },
+          ],
+          max_tokens: 1500,
+          temperature: 0.7,
+          stream: true,
+        }),
+      })
+
+      if (!fetchResponse.ok) {
+        const errText = await fetchResponse.text()
+        throw new Error(`Ollama error ${fetchResponse.status}: ${errText}`)
+      }
+
+      const reader = fetchResponse.body!.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let fullResponse = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue
+          const data = line.slice(6).trim()
+          if (data === '[DONE]') continue
+          try {
+            const parsed = JSON.parse(data)
+            const content = parsed.choices?.[0]?.delta?.content || ''
+            fullResponse += content
+            if (tabId && content) {
+              chrome.tabs.sendMessage(tabId, { type: 'CHAT_RESPONSE_CHUNK', content, isComplete: false })
+            }
+          } catch { /* ignore malformed SSE lines */ }
+        }
+      }
+
+      if (tabId) {
+        chrome.tabs.sendMessage(tabId, { type: 'CHAT_RESPONSE_CHUNK', content: '', isComplete: true, fullResponse })
+      }
+      return
     } else {
       throw new Error(`Unsupported API service or type: ${apiService} / ${customApiType}`)
     }

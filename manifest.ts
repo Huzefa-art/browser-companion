@@ -41,6 +41,7 @@ export default defineManifest({
     },
   ],
   permissions: ['sidePanel', 'storage', 'activeTab'],
+  host_permissions: ['http://localhost/*', 'http://127.0.0.1/*'],
 
   // chrome_url_overrides: {
   //   newtab: 'newtab.html',
