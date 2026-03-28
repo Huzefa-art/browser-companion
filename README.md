@@ -31,7 +31,7 @@
 
 - **Frontend:** HTML, CSS, JavaScript, React
 - **Backend:** Python, Flask, Restack, Llama 3.2, LlamaIndex
-- **Database:** MindsDB, Postgres (under development)
+- **Database:**  Postgres
 
 ## How it Works
 
