@@ -61,14 +61,6 @@ Browser Companion addresses the challenge of navigating the digital world by:
 - **Cloud Platform Templates:** Pre-built guides for common cloud management tasks.
 - **Voice Interaction:** Improved natural conversation experience.
 
-## Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgements
 
 - **Llama 3.2:** https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/
